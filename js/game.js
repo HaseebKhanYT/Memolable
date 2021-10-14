@@ -1,68 +1,23 @@
-// Press A to start  -Done
-// Give a random button -Done
-// make the button turn green -Done
-// Give another random button
-// make the button turn green 
-// wait for the user to click in order
-// if not in order game over.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var level = -1;
 var gamePattern = [];
 var userPattern = [];
 var started = false;
-
 
 const correct = new Audio("sounds/correct.mp3");
 const wrong = new Audio("sounds/wrong.mp3");
 
 $(document).keydown(function(event){
     var keyPressed = event.key;
-    if(!started){
-
+    if(!started && keyPressed === "a"){
         $("#level-title").text("Level "+ level);
         sequence();
         started = true;
-        
-
     }
 });
 
 var randomButton;
 //User buttonClick
 $(".btn").click(function(event){
-    
     var buttonClicked = $(this).attr("id"); 
     userPattern.push(buttonClicked);
     correct.play();
@@ -90,9 +45,7 @@ function checkAnswer(currentLevel) {
 }
 
 function sequence() {
-
     userPattern = [];
-    
     level++;
 
     $("#level-title").text("Level " + level);
@@ -102,29 +55,26 @@ function sequence() {
     
     //Storing the Pattern
     gamePattern.push(randomButton);
+
+    console.log(randomButton)
         
-    
+    // For showing the last recent button effect
+    setTimeout(function () {
+        $("#" + randomButton).animate({backgroundColor: '#006d00'}, 300);
+        setTimeout(() => {
+            $("#" + randomButton).animate({backgroundColor: '#6b6b6b'}, 400);
+        }, 500);
+    }, 1000);
 
-
-
-
-
-    for (let i = 0; i < gamePattern.length; i++) {
-        setTimeout(function () {
-            $("#" + gamePattern[i]).animate({backgroundColor: '#006d00'}, 300);
-            setTimeout(() => {
-                $("#" + gamePattern[i]).animate({backgroundColor: '#6b6b6b'}, 400);
-            }, 500);
-        }, i*1000);
-        
-    }
-
-    // // Random Button Animation
-    // $("#" + randomButton).animate({backgroundColor: '#006d00'}, 300);
-    // setTimeout(() => {
-    //     $("#" + randomButton).animate({backgroundColor: '#6b6b6b'}, 400);
-    // }, 500);
-    
+    // For showing the entire pattern effect
+    // for (let i = 0; i < gamePattern.length; i++) {
+    //     setTimeout(function () {
+    //         $("#" + gamePattern[i]).animate({backgroundColor: '#006d00'}, 300);
+    //         setTimeout(() => {
+    //             $("#" + gamePattern[i]).animate({backgroundColor: '#6b6b6b'}, 400);
+    //         }, 500);
+    //     }, i*1000);
+    // }
 }
 
 function startOver() {
@@ -135,17 +85,13 @@ function startOver() {
     $(document).keydown(function(event){
         var keyPressed = event.key;
         if(!started){
-    
             $("#level-title").text("Level "+ level);
             sequence();
             started = true;
-            
-    
         }
     });
     
 }
-
 
 function animatePress(currentButton) {
     $("#"+ currentButton).addClass("pressed");
@@ -155,3 +101,10 @@ function animatePress(currentButton) {
 }
 
 
+// Press A to start  -Done
+// Give a random button -Done
+// make the button turn green -Done
+// Give another random button
+// make the button turn green 
+// wait for the user to click in order
+// if not in order game over.

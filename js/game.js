@@ -6,6 +6,8 @@ var started = false;
 const correct = new Audio("sounds/correct.mp3");
 const wrong = new Audio("sounds/wrong.mp3");
 
+var allAudios = document.querySelectorAll('audio');
+
 $(document).keydown(function(event){
     var keyPressed = event.key;
     if(!started && keyPressed === "a"){
@@ -20,25 +22,34 @@ var randomButton;
 $(".btn").click(function(event){
     var buttonClicked = $(this).attr("id"); 
     userPattern.push(buttonClicked);
-    correct.play();
+    // correct.play();
     animatePress(buttonClicked);
     checkAnswer(userPattern.length-1);
 });
+
+function stopAllAudio(){
+	allAudios.forEach(function(audio){
+		audio.pause();
+	});
+}
 
 function checkAnswer(currentLevel) {
 
     if (gamePattern[currentLevel] === userPattern[currentLevel]) {
         console.log("success");
+        correct.play();
         if (userPattern.length === gamePattern.length){
             setTimeout(function () {sequence();}, 1000); 
+            // correct.play();
         }
     } else {
         console.log("wrong"); 
-        wrong.play();
         $("body").addClass("game-over");            
         setTimeout(() => {
             $("body").removeClass("game-over");
         }, 200);
+        stopAllAudio();
+        wrong.play();
         $("#level-title").text("Game Over, Press Any Key to Restart");
         startOver();
     }
